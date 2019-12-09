@@ -1,0 +1,10 @@
+<server>
+    <dataSource id="DefaultDataSource" jndiName="jdbc/sampleDS" connectionSharing="MatchCurrentState" 
+            isolationLevel="TRANSACTION_READ_COMMITTED" statementCacheSize="20">
+    <connectionManager maxPoolSize="20" minPoolSize="5" 
+                       connectionTimeout="10s" agedTimeout="30m"/>
+    <jdbcDriver libraryRef="DB2JCCLib"/>
+    <properties.db2.jcc driverType="4" databaseName="${DATABASE_NAME}" serverName="${DATABASE_SERVER}" portNumber="${DATABASE_PORT}" 
+                        currentLockTimeout="30s" user="${DATABASE_USER}" password="${DATABASE_PASSWORD}"/>
+</dataSource>
+</server>

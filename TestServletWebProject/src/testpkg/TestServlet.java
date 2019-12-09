@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -65,6 +67,19 @@ public class TestServlet extends HttpServlet {
 		 {
 		 e.printStackTrace();
 		 }
+
+		 //PROPS_FILE is defined in jvm.options
+		 String propsFileName = System.getProperty("PROPS_FILE");
+		 System.out.println(propsFileName);
+		 
+		 final Properties properties = new Properties();
+		 try (final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(propsFileName)) {
+		     properties.load(stream);
+		 }
+		 
+		 String propsValue = properties.getProperty("testPropertyName");
+		 
+		 outputStr = outputStr + "\n" + propsValue;
 		 
 		 response.getWriter().println(outputStr);
 		 
