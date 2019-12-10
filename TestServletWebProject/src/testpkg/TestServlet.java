@@ -43,7 +43,7 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String outputStr = "Hello Liberty!! Lets run on Openshift cluster deployed on AWS";
+		String outputStr = "Hello Liberty Upgraded to V2!! Lets run on Openshift cluster deployed on AWS";
 		outputStr = outputStr + "\n" + "Database folders are \n";
 		
 		
@@ -52,20 +52,23 @@ public class TestServlet extends HttpServlet {
 		 try
 		 {
 			 con = ds1.getConnection();
-		 preparedStatement = con.prepareStatement("Select * from folder");
-		 ResultSet rset=preparedStatement.executeQuery();
-		 if(rset!=null)
-		 {
-		 while(rset.next())
-		 {
-		 //System.out.println("Name: "+rset.getString("name"));
-		 outputStr = outputStr + rset.getString("name") + "\n";
-		 }
-		 }
+			 preparedStatement = con.prepareStatement("Select * from folder");
+			 ResultSet rset=preparedStatement.executeQuery();
+			 if(rset!=null)
+			 {
+			 while(rset.next())
+			 {
+			 //System.out.println("Name: "+rset.getString("name"));
+			 outputStr = outputStr + rset.getString("name") + "\n";
+			 }
+			 }
 		 }
 		 catch(SQLException e)
 		 {
-		 e.printStackTrace();
+			 //e.printStackTrace();
+			 outputStr = outputStr + " Failed to read the database \n";
+			 outputStr = outputStr + e.toString();
+			 outputStr = outputStr + "\n";
 		 }
 
 		 //PROPS_FILE is defined in jvm.options
@@ -74,12 +77,27 @@ public class TestServlet extends HttpServlet {
 		 
 		 final Properties properties = new Properties();
 		 try (final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(propsFileName)) {
-		     properties.load(stream);
+			 if (stream != null)
+			 {
+				 properties.load(stream);
+				 String propsValue = properties.getProperty("testPropertyName");
+			 
+				 outputStr = outputStr + "\n" + propsValue;
+			 }
+			 else
+			 {
+				 outputStr = outputStr + " Failed to read properties \n";
+				 outputStr = outputStr + "\n";
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 outputStr = outputStr + " Failed to read properties \n";
+			 outputStr = outputStr + e.toString();
+			 outputStr = outputStr + "\n";
 		 }
 		 
-		 String propsValue = properties.getProperty("testPropertyName");
-		 
-		 outputStr = outputStr + "\n" + propsValue;
+
 		 
 		 response.getWriter().println(outputStr);
 		 
