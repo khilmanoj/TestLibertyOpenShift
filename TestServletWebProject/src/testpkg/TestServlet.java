@@ -43,7 +43,7 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String outputStr = "Hello Liberty Upgraded to V2!! Lets run on Openshift cluster deployed on AWS";
+		String outputStr = "Hello Liberty Application V1!! Lets run on Openshift cluster deployed on AWS";
 		outputStr = outputStr + "\n" + "Database folders are \n";
 		
 		
@@ -71,6 +71,7 @@ public class TestServlet extends HttpServlet {
 			 outputStr = outputStr + "\n";
 		 }
 
+		 outputStr = outputStr + "\n" + "Read Proeprties File \n";
 		 //PROPS_FILE is defined in jvm.options
 		 String propsFileName = System.getProperty("PROPS_FILE");
 		 System.out.println(propsFileName);
