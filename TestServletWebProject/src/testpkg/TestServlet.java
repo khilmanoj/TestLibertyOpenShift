@@ -43,60 +43,64 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String outputStr = "Hello Liberty Application V1!! Lets run on Openshift cluster deployed on AWS";
-		outputStr = outputStr + "\n" + "Database folders are \n";
+		String outputStr = "Hello Liberty Application V1!! Lets run on Openshift cluster deployed on AWS!!";
+		outputStr = outputStr + "\n" + "Read database table \n";
 		
-		
-		PreparedStatement preparedStatement = null;
-		 
-		 try
-		 {
-			 con = ds1.getConnection();
-			 preparedStatement = con.prepareStatement("Select * from folder");
-			 ResultSet rset=preparedStatement.executeQuery();
-			 if(rset!=null)
-			 {
-			 while(rset.next())
-			 {
-			 //System.out.println("Name: "+rset.getString("name"));
-			 outputStr = outputStr + rset.getString("name") + "\n";
-			 }
-			 }
-		 }
-		 catch(SQLException e)
-		 {
-			 //e.printStackTrace();
-			 outputStr = outputStr + " Failed to read the database \n";
-			 outputStr = outputStr + e.toString();
-			 outputStr = outputStr + "\n";
-		 }
-
-		 outputStr = outputStr + "\n" + "Read Proeprties File \n";
-		 //PROPS_FILE is defined in jvm.options
-		 String propsFileName = System.getProperty("PROPS_FILE");
-		 System.out.println(propsFileName);
-		 
-		 final Properties properties = new Properties();
-		 try (final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(propsFileName)) {
-			 if (stream != null)
-			 {
-				 properties.load(stream);
-				 String propsValue = properties.getProperty("testPropertyName");
+		String test = request.getParameter("test");
+		if (test == null)
+		{
+			PreparedStatement preparedStatement = null;
 			 
-				 outputStr = outputStr + "\n" + propsValue;
-			 }
-			 else
+			 try
 			 {
-				 outputStr = outputStr + " Failed to read properties \n";
+				 con = ds1.getConnection();
+				 preparedStatement = con.prepareStatement("Select * from folder");
+				 ResultSet rset=preparedStatement.executeQuery();
+				 if(rset!=null)
+				 {
+				 while(rset.next())
+				 {
+				 //System.out.println("Name: "+rset.getString("name"));
+				 outputStr = outputStr + rset.getString("name") + "\n";
+				 }
+				 }
+			 }
+			 catch(SQLException e)
+			 {
+				 //e.printStackTrace();
+				 outputStr = outputStr + " Failed to read the database \n";
+				 outputStr = outputStr + e.toString();
 				 outputStr = outputStr + "\n";
 			 }
-		 }
-		 catch(Exception e)
-		 {
-			 outputStr = outputStr + " Failed to read properties \n";
-			 outputStr = outputStr + e.toString();
-			 outputStr = outputStr + "\n";
-		 }
+			 
+	
+			 outputStr = outputStr + "\n" + "Read Properties File \n";
+			 //PROPS_FILE is defined in jvm.options
+			 String propsFileName = System.getProperty("PROPS_FILE");
+			 System.out.println("Properties file name is:" + propsFileName);
+			 
+			 final Properties properties = new Properties();
+			 try (final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(propsFileName)) {
+				 if (stream != null)
+				 {
+					 properties.load(stream);
+					 String propsValue = properties.getProperty("testPropertyName");
+				 
+					 outputStr = outputStr + "\n" + propsValue;
+				 }
+				 else
+				 {
+					 outputStr = outputStr + " Failed to read properties \n";
+					 outputStr = outputStr + "\n";
+				 }
+			 }
+			 catch(Exception e)
+			 {
+				 outputStr = outputStr + " Failed to read properties \n";
+				 outputStr = outputStr + e.toString();
+				 outputStr = outputStr + "\n";
+			 }
+		}
 		 
 
 		 
