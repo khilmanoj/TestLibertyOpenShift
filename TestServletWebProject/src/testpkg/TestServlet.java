@@ -43,8 +43,14 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String outputStr = "Hello Liberty Application V1!! Lets run on Openshift cluster deployed on AWS!!";
-		outputStr = outputStr + "\n" + "Read database table \n";
+		String outputStr = "<html><body>";
+		
+		
+		outputStr = outputStr + "<br><br><font size='8'>" + "Hello Liberty Application <b>V1</b>!! " + "</font>";
+		
+		outputStr = outputStr + "<br><br><font size='6'>" + "Run on Openshift 4.0 cluster." + "</font>";
+		
+		outputStr = outputStr + "<br><br><font size='6'>" + "<b>Read AWS database table data </b>"+ "</font>";
 		
 		String test = request.getParameter("test");
 		if (test == null)
@@ -61,20 +67,20 @@ public class TestServlet extends HttpServlet {
 				 while(rset.next())
 				 {
 				 //System.out.println("Name: "+rset.getString("name"));
-				 outputStr = outputStr + rset.getString("name") + "\n";
+				 outputStr = outputStr + rset.getString("name") + "<br>";
 				 }
 				 }
 			 }
 			 catch(SQLException e)
 			 {
 				 //e.printStackTrace();
-				 outputStr = outputStr + " Failed to read the database \n";
+				 outputStr = outputStr + " Failed to read the database <br><br>";
 				 outputStr = outputStr + e.toString();
 				 outputStr = outputStr + "\n";
 			 }
 			 
 	
-			 outputStr = outputStr + "\n" + "Read Properties File \n";
+			 outputStr = outputStr + "<br><font size='6'>" + "<b>Read External Properties File </b>"+ "</font>";
 			 //PROPS_FILE is defined in jvm.options
 			 String propsFileName = System.getProperty("PROPS_FILE");
 			 System.out.println("Properties file name is:" + propsFileName);
@@ -90,19 +96,19 @@ public class TestServlet extends HttpServlet {
 				 }
 				 else
 				 {
-					 outputStr = outputStr + " Failed to read properties \n";
+					 outputStr = outputStr + " Failed to read properties <br><br>";
 					 outputStr = outputStr + "\n";
 				 }
 			 }
 			 catch(Exception e)
 			 {
-				 outputStr = outputStr + " Failed to read properties \n";
+				 outputStr = outputStr + " Failed to read properties <br><br>";
 				 outputStr = outputStr + e.toString();
 				 outputStr = outputStr + "\n";
 			 }
 		}
 		 
-
+		outputStr = outputStr + "</body></html>";
 		 
 		 response.getWriter().println(outputStr);
 		 
