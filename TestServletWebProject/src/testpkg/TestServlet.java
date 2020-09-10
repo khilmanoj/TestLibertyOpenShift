@@ -47,7 +47,7 @@ public class TestServlet extends HttpServlet {
 		String outputStr = "<html><body>";
 		
 		
-		outputStr = outputStr + "<br><br><font size='8'>" + "Hello TWAS Application - Pipelines v1.1" + "</font>";
+		outputStr = outputStr + "<br><br><font size='8'>" + "Hello Liberty Application - Pipelines v1.0" + "</font>";
 		
 		outputStr = outputStr + "<br><br><font size='6'>" + "Run on Openshift 4.5.4 cluster." + "</font>";
 		
