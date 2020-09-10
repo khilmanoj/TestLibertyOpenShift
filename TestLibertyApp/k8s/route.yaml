@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: testlibertyapp
+  name: testlibertyapp
+spec:
+  port:
+    targetPort: port-9443
+  to:
+    kind: Service
+    name: testlibertyapp
+    weight: 100
+  tls:
+    termination: passthrough

@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
 	
+	
 	@Resource(name = "jdbc/sampleDS")
 	private DataSource ds1;
 	  private Connection con = null;
@@ -46,14 +47,15 @@ public class TestServlet extends HttpServlet {
 		String outputStr = "<html><body>";
 		
 		
-		outputStr = outputStr + "<br><br><font size='8'>" + "Hello Liberty Application <b>V1</b>!! " + "</font>";
+		outputStr = outputStr + "<br><br><font size='8'>" + "Hello TWAS Application - Pipelines v1.1" + "</font>";
 		
-		outputStr = outputStr + "<br><br><font size='6'>" + "Run on Openshift 4.0 cluster." + "</font>";
+		outputStr = outputStr + "<br><br><font size='6'>" + "Run on Openshift 4.5.4 cluster." + "</font>";
+		
 		
 		outputStr = outputStr + "<br><br><font size='6'>" + "<b>Read AWS database table data </b>"+ "</font>";
 		
-		String test = request.getParameter("test");
-		if (test == null)
+		String showData = request.getParameter("showdata");
+		if (showData != null)
 		{
 			PreparedStatement preparedStatement = null;
 			 
@@ -78,11 +80,15 @@ public class TestServlet extends HttpServlet {
 				 outputStr = outputStr + e.toString();
 				 outputStr = outputStr + "\n";
 			 }
-			 
+		}
+		String showProps = request.getParameter("showprops");
+		if (showProps != null)
+		{
 	
 			 outputStr = outputStr + "<br><font size='6'>" + "<b>Read External Properties File </b>"+ "</font>";
 			 //PROPS_FILE is defined in jvm.options
-			 String propsFileName = System.getProperty("PROPS_FILE");
+			 String propsFileName = System.getProperty("PROPS_FILE","testconfig.properties");
+			 
 			 System.out.println("Properties file name is:" + propsFileName);
 			 
 			 final Properties properties = new Properties();
